@@ -104,12 +104,68 @@ events = [
     "calendar" => "web-dev" }
 ]
 
+events2 = [
+  { "id" => id = 1,
+    "start_date" => "2023-02-13T10:00:00-05:00",
+    "title" => "Ruby Basics 1",
+    "end_date" => "2023-02-13T10:30:00-05:00",
+    "notes" => "Ruby Basics 1 notes",
+    "guests" => ["Paulo", "Andre"],
+    "calendar" => "web-dev" },
+  { "id" => id = 2,
+    "start_date" => "2023-02-13T09:00:00-05:00",
+    "title" => "English Course",
+    "end_date" => "2023-02-13T09:30:00-05:00",
+    "notes" => "English notes",
+    "guests" => ["Stephanie"],
+    "calendar" => "english" }]
+
+# p sort_array_hashes(events2, "start_date")
+
 # Probar Update
 # update_events(events, 1)
+# p events[0]
 
 # Probar Show
 # p show(events)
 
 # check_start_end("10:30 10:20")
-# p check_correct_hours("a")
-# p check_valid_hour("a")
+# p check_correct_hours("10:30 10:50")
+# p check_valid_hour("ddddddd")
+
+# welcome(events)
+
+# delete_event(events2)
+
+# Main Progam
+now_date=DateTime.now
+welcome(events, now_date, "Welcome to CalenCLI")
+
+action = nil
+while action != "exit"
+  print "action: "
+  action = gets.chomp
+
+  case action
+  when "list"
+    welcome(events, now_date, "Welcome to CalenCLI")
+  when "create"
+    puts "Create"
+  when "show"
+    show(events)
+  when "update"
+    update_events(events, id)
+  when "delete"
+    delete_event(events)
+  when "next"
+    welcome(events, now_date + 7, "------CalenCLI-----")
+    now_date = now_date + 7
+  when "prev"
+    welcome(events, now_date - 7, "------CalenCLI-----")
+    now_date = now_date - 7
+  when "exit"
+    puts "Thanks for using calenCLI"
+  else
+    puts "Invalid action"
+  end
+end
