@@ -1,4 +1,5 @@
 require "date"
+require_relative "calencli_methods"
 
 # DATA
 id = 0
@@ -100,5 +101,15 @@ events = [
     "end_date" => "",
     "notes" => "",
     "guests" => [],
-    "calendar" => "web-dev" },
+    "calendar" => "web-dev" }
 ]
+
+# Probar Update
+# update_events(events, 1)
+
+# Probar Show
+# p show(events)
+
+# check_start_end("10:30 10:20")
+# p check_correct_hours("a")
+# p check_valid_hour("a")
