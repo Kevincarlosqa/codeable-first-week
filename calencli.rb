@@ -104,22 +104,6 @@ events = [
     "calendar" => "web-dev" }
 ]
 
-events2 = [
-  { "id" => id = 1,
-    "start_date" => "2023-02-13T10:00:00-05:00",
-    "title" => "Ruby Basics 1",
-    "end_date" => "2023-02-13T10:30:00-05:00",
-    "notes" => "Ruby Basics 1 notes",
-    "guests" => ["Paulo", "Andre"],
-    "calendar" => "web-dev" },
-  { "id" => id = 2,
-    "start_date" => "2023-02-13T09:00:00-05:00",
-    "title" => "English Course",
-    "end_date" => "2023-02-13T09:30:00-05:00",
-    "notes" => "English notes",
-    "guests" => ["Stephanie"],
-    "calendar" => "english" }]
-
 # p sort_array_hashes(events2, "start_date")
 
 # Probar Update
@@ -138,7 +122,7 @@ events2 = [
 # delete_event(events2)
 
 # Main Progam
-now_date=DateTime.now
+now_date = DateTime.now
 welcome(events, now_date, "Welcome to CalenCLI")
 
 action = nil
@@ -159,10 +143,10 @@ while action != "exit"
     delete_event(events)
   when "next"
     welcome(events, now_date + 7, "------CalenCLI-----")
-    now_date = now_date + 7
+    now_date += 7
   when "prev"
     welcome(events, now_date - 7, "------CalenCLI-----")
-    now_date = now_date - 7
+    now_date -=  7
   when "exit"
     puts "Thanks for using calenCLI"
   else
