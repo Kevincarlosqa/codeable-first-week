@@ -143,7 +143,9 @@ while action != "exit"
     show(events)
   when "update"
     print "Event ID: ".colorize(:light_cyan)
-    new_id = gets.chomp.to_i
+    new_id = gets.chomp
+    new_id = check_empty(new_id, "Event ID", "Cannot be blank")
+    new_id = new_id.to_i
     update_events(events, new_id)
   when "delete"
     delete_event(events)
