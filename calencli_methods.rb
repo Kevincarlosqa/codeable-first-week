@@ -12,7 +12,7 @@ end
 def check_valid_hour(new_input)
   return true if new_input.empty?
 
-  return false if new_input.length != 11 # && new_input.length != 5
+  return false if new_input.length != 11
 
   c1 = new_input[0..1]
   c2 = new_input[3..4]
@@ -31,7 +31,6 @@ end
 def check_correct_hours(new_input)
   return true if new_input.empty?
 
-  # return true if new_input.length == 5
   a = new_input[0..1].to_i
   b = new_input[3..4].to_i
   x = new_input[6..7].to_i
@@ -136,18 +135,6 @@ end
 def sort_array_hashes(array_of_hashes, sort_by)
   array_of_hashes.sort_by! { |hsh| hsh[sort_by] }
 end
-
-# def delete_event(events)
-#   print "Event ID: ".colorize(:light_cyan)
-#   id = gets.chomp.to_i
-#   index_delete = events.find_index { |event| event["id"] == id }
-#   if index_delete.nil?
-#     puts "Event not found"
-#   else
-#     events.delete_at(index_delete)
-#     puts "Event deleted"
-#   end
-# end
 
 def list(events, date = DateTime.now, msg = "")
   tmp_date = date - (date.strftime("%u").to_i - 1) # Lunes de esta fecha

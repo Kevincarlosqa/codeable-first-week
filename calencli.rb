@@ -106,24 +106,8 @@ events = [
     "calendar" => "web-dev" }
 ]
 
-# p sort_array_hashes(events2, "start_date")
-
-# Probar Update
-# update_events(events, 1)
-# p events[0]
-
-# Probar Show
-# p show(events)
-
-# check_start_end("10:30 10:20")
-# p check_correct_hours("10:30 10:50")
-# p check_valid_hour("ddddddd")
-
-# welcome(events)
-
-# delete_event(events2)
-
 # Main Progam
+
 now_date = DateTime.now
 
 $menu = "#{'-' * 78} \nlist | create | show | update | delete | next | prev | exit\n"
@@ -156,8 +140,8 @@ while action != "exit"
     list(events, now_date - 7, "------CalenCLI-----")
     now_date -=  7
   when "exit"
-    puts "Thanks for using calenCLI"
+    puts "\nThanks for using calenCLI".colorize(:light_blue)
   else
-    puts "Invalid action"
+    puts "Invalid action".colorize(:light_white)
   end
 end
