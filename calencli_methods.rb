@@ -217,18 +217,18 @@ def list(events, date = DateTime.now, msg = "")
     tmp_events = events.select { |event| tmp_date === Date.parse(event["start_date"]) } # Almacena en un array los eventos cuyo dia sea igual al que se esta imprimiendo
     tmp_empty_ends = []
     tmp_full_starts = []
-    if tmp_events.length != 0
-      tmp_events.each do |tmp_event|
+    if tmp_events.length != 0 # Si encontró eventos realiza lo siguiente
+      tmp_events.each do |tmp_event| # Busca y agrega a 2 array los eventos que no tienen end_date y que tienen end date
         if tmp_event["end_date"] == ""
           tmp_empty_ends.push(tmp_event)
         else
           tmp_full_starts.push(tmp_event)
         end
       end
-      sort_array_hashes(tmp_full_starts, "start_date")
-      if tmp_empty_ends.length != 0
+      sort_array_hashes(tmp_full_starts, "start_date") # Ordena el array de hashes que tienen end_date
+      if tmp_empty_ends.length != 0 # Si hay elementos que tienen end_date realiza lo siguiente
         n = 1
-        tmp_empty_ends.each do |tmp_empty_end|
+        tmp_empty_ends.each do |tmp_empty_end| # Empieza a imprimir todos los elementos que no tienen end_date
           if n == 1
             print "              "
             print "#{tmp_empty_end['title']} "
@@ -241,14 +241,14 @@ def list(events, date = DateTime.now, msg = "")
           end
 
         end
-        tmp_full_starts.each do |tmp_full_start|
+        tmp_full_starts.each do |tmp_full_start| # Empieza a imprimir todos los elementos que tienen end_date
           print "            #{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} "
           print "#{tmp_full_start['title']} "
           puts "(#{tmp_full_start['id']})"
         end
-      else
+      else # Si no hay elementos que tienen end_date realiza lo siguiente
         m = 1
-        tmp_full_starts.each do |tmp_full_start|
+        tmp_full_starts.each do |tmp_full_start| # Empieza a imprimir todos los elementos que tienen end_date
           if m == 1
             print "#{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} "
             print "#{tmp_full_start['title']} "
