@@ -58,9 +58,9 @@ def check_start_end(input)
   input
 end
 
-def update_events(events, id)
-  tmp_array = events.select { |event| id == event["id"] }
-  puts "Event ID: #{tmp_array[0]['id']}"
+def update_events(events, new_id)
+  tmp_array = events.select { |event| new_id == event["id"] }
+  # puts "Event ID: #{tmp_array[0]['id']}"
   print "date: "
   date = gets.chomp
   date = check_empty(date, "date", "Type a valid date: YYYY-MM-DD")
@@ -91,6 +91,8 @@ def update_events(events, id)
     "guests" => guests,
     "calendar" => calendar
   }
+  puts "-" * 78
+  puts "list | create | show | update | delete | next | prev | exit"
   events[events.index(tmp_array[0])].merge!(tmp_hash)
 end
 

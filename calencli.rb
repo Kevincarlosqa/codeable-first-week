@@ -138,7 +138,9 @@ while action != "exit"
   when "show"
     show(events)
   when "update"
-    update_events(events, id)
+    print "Event ID: "
+    new_id = gets.chomp.to_i
+    update_events(events, new_id)
   when "delete"
     delete_event(events)
   when "next"
