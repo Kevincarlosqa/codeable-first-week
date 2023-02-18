@@ -60,16 +60,15 @@ end
 
 def update_events(events, new_id)
   tmp_array = events.select { |event| new_id == event["id"] }
-  # puts "Event ID: #{tmp_array[0]['id']}"
-  print "date: "
+  print "date: ".colorize(:light_cyan)
   date = gets.chomp
   date = check_empty(date, "date", "Type a valid date: YYYY-MM-DD")
-  print "title: "
+  print "title: ".colorize(:light_cyan)
   title = gets.chomp
   title = check_empty(title, "title", "Cannot be blank")
-  print "calendar: "
+  print "calendar: ".colorize(:light_cyan)
   calendar = gets.chomp
-  print "start_end: "
+  print "start_end: ".colorize(:light_cyan)
   start_end = gets.chomp
   start_end = check_start_end(start_end)
   tmp_string_end = "#{date}T#{start_end[6..10]}:00-05:00"
@@ -79,9 +78,9 @@ def update_events(events, new_id)
   end
   tmp_string_end = "" if start_end.length == 5
 
-  print "notes: "
+  print "notes: ".colorize(:light_cyan)
   notes = gets.chomp
-  print "guests: "
+  print "guests: ".colorize(:light_cyan)
   guests = gets.chomp.split(", ")
   tmp_hash = {
     "start_date" => "#{date}T#{start_end[0..4]}:00-05:00",
@@ -91,71 +90,78 @@ def update_events(events, new_id)
     "guests" => guests,
     "calendar" => calendar
   }
-  puts "-" * 78
-  puts "list | create | show | update | delete | next | prev | exit"
+  print $menu.colorize(:light_cyan)
   events[events.index(tmp_array[0])].merge!(tmp_hash)
 end
 
-# def show(events)
-#   print "Event ID: ".colorize(nuevo_metodo("english"))
-#   id = gets.chomp.to_i
-#   evento_a_mostrar = events.find { |evento| evento["id"] == id }
-#   dat = evento_a_mostrar["start_date"].split("T")
-#   print "date: ".colorize(:blue)
-#   puts "#{dat[0]}"
-#   print "title: ".colorize(:blue)
-#   puts "#{evento_a_mostrar['title']}"
-#   puts "calendar: #{evento_a_mostrar['calendar'].colorize(:white)}".colorize(:blue)
-#   hora_inicio = evento_a_mostrar["start_date"][11..15]
-#   hora_termino = evento_a_mostrar["end_date"][11..15]
-#   if !hora_termino.nil?
-#     puts "Start_end: #{hora_inicio}-#{hora_termino}".colorize(:blue)
-#   else
-#     print "Start_end: ".colorize(:blue)
-#     puts "Es un evento para todo el dia"
-#   end
-#   puts "Notes: #{evento_a_mostrar['notes']}".colorize(:blue)
-#   cad = evento_a_mostrar["guests"].join(", ")
-#   puts "guests: #{cad}".colorize(:blue)
-#   puts "-" * 78
-#   puts "list | create | show | update | delete | next | prev | exit"
-# end
-
 def show(events)
-  print "Event ID: "
-  id = gets.chomp.to_i
+  print "Event ID: ".colorize(:light_cyan)
+  id = gets.chomp
+  while id.empty?
+    puts "Cannot be blank"
+    print "Event ID: ".colorize(:light_cyan)
+    id = gets.chomp
+  end
+  id = id.to_i
   evento_a_mostrar = events.find { |evento| evento["id"] == id }
+  while evento_a_mostrar.nil?
+    puts "Invalid ID"
+    print "Event ID: ".colorize(:light_cyan)
+    id = gets.chomp.to_i
+    evento_a_mostrar = events.find { |evento| evento["id"] == id }
+  end
   dat = evento_a_mostrar["start_date"].split("T")
-  puts "date: #{dat[0]}"
-  puts "title: #{evento_a_mostrar['title']}"
-  puts "calendar: #{evento_a_mostrar['calendar']}"
+  print "date: ".colorize(:light_cyan)
+  puts dat[0].to_s
+  print "title: ".colorize(:light_cyan)
+  puts evento_a_mostrar["title"].to_s
+  print "calendar: ".colorize(:light_cyan)
+  puts evento_a_mostrar["calendar"].to_s
   hora_inicio = evento_a_mostrar["start_date"][11..15]
   hora_termino = evento_a_mostrar["end_date"][11..15]
-  if !hora_termino.nil?
-    puts "Start_end: #{hora_inicio}-#{hora_termino}"
+  print "Start_end: ".colorize(:light_cyan)
+  if hora_termino.nil?
+    puts "Es un evento para todo el dia"
   else
-    puts "Start_end: Es un evento para todo el dia"
+    puts "#{hora_inicio}-#{hora_termino}"
   end
-  puts "Notes: #{evento_a_mostrar['notes']}"
+  print "Notes: ".colorize(:light_cyan)
+  puts evento_a_mostrar["notes"].to_s
   cad = evento_a_mostrar["guests"].join(", ")
-  puts "guests: #{cad}"
-  puts $menu
+  print "guests: ".colorize(:light_cyan)
+  puts cad.to_s
+  print $menu.colorize(:light_cyan)
 end
 
+# def nuevo_metodo(tipo_color)
+#   action = tipo_color
+#   case action
+#   when "english"
+#     return "magenta".to_sym
+#   when "web-dev"
+#     return "blue".to_sym
+#   when "soft-skills"
+#     return "green".to_sym
+#   when "default"
+#     return "default".to_sym
+#   else
+#     return "light_black".to_sym
+#   end
+# end
 
-def nuevo_metodo(tipo_color)
-  action = tipo_color
-  case action
+def hash_color(input_hash)
+  tipo_calendario = input_hash["calendar"]
+  case tipo_calendario
   when "english"
-    return "magenta".to_sym
+    :magenta
   when "web-dev"
-    return "blue".to_sym
+    :red
   when "soft-skills"
-    return "green".to_sym
+    :green
   when "default"
-    return "default".to_sym
+    :default
   else
-    return "light_black".to_sym
+    :light_gray
   end
 end
 
@@ -197,7 +203,7 @@ def sort_array_hashes(array_of_hashes, sort_by)
 end
 
 def delete_event(events)
-  print "Event ID: "
+  print "Event ID: ".colorize(:light_cyan)
   id = gets.chomp.to_i
   index_delete = events.find_index { |event| event["id"] == id }
   if index_delete.nil?
@@ -210,14 +216,17 @@ end
 
 def list(events, date = DateTime.now, msg = "")
   tmp_date = date - (date.strftime("%u").to_i - 1) # Lunes de esta fecha
-  puts "#{'-' * 29}#{msg}#{'-' * 30}"
+  puts "#{'-' * 29}#{msg}#{'-' * 30}".colorize(:light_cyan)
   puts ""
-  for i in 1..7 do
+  7.times do
     print "#{tmp_date.strftime('%a')} #{tmp_date.strftime('%b')} #{tmp_date.strftime('%d')}  " # Calendario
-    tmp_events = events.select { |event| tmp_date === Date.parse(event["start_date"]) } # Almacena en un array los eventos cuyo dia sea igual al que se esta imprimiendo
+    # Almacena en un array los eventos cuyo dia sea igual al que se esta imprimiendo
+    tmp_events = events.select { |event| tmp_date === Date.parse(event["start_date"]) }
     tmp_empty_ends = []
     tmp_full_starts = []
-    if tmp_events.length != 0 # Si encontró eventos realiza lo siguiente
+    if tmp_events.empty? # Si encontró eventos realiza lo siguiente
+      puts "              No events"
+    else
       tmp_events.each do |tmp_event| # Busca y agrega a 2 array los eventos que no tienen end_date y que tienen end date
         if tmp_event["end_date"] == ""
           tmp_empty_ends.push(tmp_event)
@@ -226,60 +235,63 @@ def list(events, date = DateTime.now, msg = "")
         end
       end
       sort_array_hashes(tmp_full_starts, "start_date") # Ordena el array de hashes que tienen end_date
-      if tmp_empty_ends.length != 0 # Si hay elementos que tienen end_date realiza lo siguiente
+      if tmp_empty_ends.empty? # Si hay elementos que tienen end_date realiza lo siguiente
+        m = 1
+        tmp_full_starts.each do |tmp_full_start| # Empieza a imprimir todos los elementos que tienen end_date
+          color = hash_color(tmp_full_start)
+          if m == 1
+            print "#{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} ".colorize(color)
+            print "#{tmp_full_start['title']} ".colorize(color)
+            puts "(#{tmp_full_start['id']})".colorize(color)
+            m = 2
+          else
+            print "            #{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} ".colorize(color)
+            print "#{tmp_full_start['title']} ".colorize(color)
+            puts "(#{tmp_full_start['id']})".colorize(color)
+          end
+        end
+      else # Si no hay elementos que tienen end_date realiza lo siguiente
         n = 1
         tmp_empty_ends.each do |tmp_empty_end| # Empieza a imprimir todos los elementos que no tienen end_date
+          color = hash_color(tmp_empty_end)
           if n == 1
             print "              "
-            print "#{tmp_empty_end['title']} "
-            puts "(#{tmp_empty_end['id']})"
+            print "#{tmp_empty_end['title']} ".colorize(color)
+            puts "(#{tmp_empty_end['id']})".colorize(color)
             n = 2
           else
             print "                          "
-            print "#{tmp_empty_end['title']} "
-            puts "(#{tmp_empty_end['id']})"
+            print "#{tmp_empty_end['title']} ".colorize(color)
+            puts "(#{tmp_empty_end['id']})".colorize(color)
           end
-
         end
         tmp_full_starts.each do |tmp_full_start| # Empieza a imprimir todos los elementos que tienen end_date
-          print "            #{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} "
-          print "#{tmp_full_start['title']} "
-          puts "(#{tmp_full_start['id']})"
-        end
-      else # Si no hay elementos que tienen end_date realiza lo siguiente
-        m = 1
-        tmp_full_starts.each do |tmp_full_start| # Empieza a imprimir todos los elementos que tienen end_date
-          if m == 1
-            print "#{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} "
-            print "#{tmp_full_start['title']} "
-            puts "(#{tmp_full_start['id']})"
-            m = 2
-          else
-            print "            #{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} "
-            print "#{tmp_full_start['title']} "
-            puts "(#{tmp_full_start['id']})"
-          end
+          color = hash_color(tmp_full_start)
+          print "            "
+          print "#{tmp_full_start['start_date'][11..15]} - #{tmp_full_start['end_date'][11..15]} ".colorize(color)
+          print "#{tmp_full_start['title']} ".colorize(color)
+          puts "(#{tmp_full_start['id']})".colorize(color)
         end
       end
-    else
-      puts "              No events"
     end
     tmp_date += 1
     puts ""
   end
-  puts $menu
+  print $menu.colorize(:light_cyan)
 end
 
 def create_event(events, id)
-  print "date: "
+  print "date: ".colorize(:light_cyan)
   date = gets.chomp
   date = check_empty(date, "date", "Type a valid date: YYYY-MM-DD")
-  print "title: "
+  print "title: ".colorize(:light_cyan)
   title = gets.chomp
   title = check_empty(title, "title", "Cannot be blank")
-  print "calendar: "
+  print "calendar: ".colorize(:light_cyan)
   calendar = gets.chomp
-  print "start_end: "
+  calendar = "default" if calendar.empty?
+
+  print "start_end: ".colorize(:light_cyan)
   start_end = gets.chomp
   start_end = check_start_end(start_end)
   tmp_string_end = "#{date}T#{start_end[6..10]}:00-05:00"
@@ -288,9 +300,9 @@ def create_event(events, id)
     tmp_string_end = ""
   end
   tmp_string_end = "" if start_end.length == 5
-  print "notes: "
+  print "notes: ".colorize(:light_cyan)
   notes = gets.chomp
-  print "guests: "
+  print "guests: ".colorize(:light_cyan)
   guests = gets.chomp.split(", ")
   new_event = {
     "id" => id,
@@ -302,5 +314,5 @@ def create_event(events, id)
     "calendar" => calendar
   }
   events.push(new_event)
-  puts $menu
+  print $menu.colorize(:light_cyan)
 end

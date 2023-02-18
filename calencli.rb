@@ -1,6 +1,6 @@
 require "date"
 require "colorize"
-require 'colorized_string'
+require "colorized_string"
 require_relative "calencli_methods"
 
 # DATA
@@ -126,13 +126,13 @@ events = [
 # Main Progam
 now_date = DateTime.now
 
-$menu = "#{('-')*78} \nlist | create | show | update | delete | next | prev | exit\n"
+$menu = "#{'-' * 78} \nlist | create | show | update | delete | next | prev | exit\n"
 
 list(events, now_date, "Welcome to CalenCLI")
 
 action = nil
 while action != "exit"
-  print "\naction: "
+  print "\naction: ".colorize(:light_yellow)
   action = gets.chomp
   case action
   when "list"
@@ -142,7 +142,7 @@ while action != "exit"
   when "show"
     show(events)
   when "update"
-    print "Event ID: "
+    print "Event ID: ".colorize(:light_cyan)
     new_id = gets.chomp.to_i
     update_events(events, new_id)
   when "delete"
@@ -159,6 +159,3 @@ while action != "exit"
     puts "Invalid action"
   end
 end
-
-# Ver colores
-# p ColorizedString.colors
