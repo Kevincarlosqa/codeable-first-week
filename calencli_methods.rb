@@ -96,6 +96,31 @@ def update_events(events, new_id)
   events[events.index(tmp_array[0])].merge!(tmp_hash)
 end
 
+# def show(events)
+#   print "Event ID: ".colorize(nuevo_metodo("english"))
+#   id = gets.chomp.to_i
+#   evento_a_mostrar = events.find { |evento| evento["id"] == id }
+#   dat = evento_a_mostrar["start_date"].split("T")
+#   print "date: ".colorize(:blue)
+#   puts "#{dat[0]}"
+#   print "title: ".colorize(:blue)
+#   puts "#{evento_a_mostrar['title']}"
+#   puts "calendar: #{evento_a_mostrar['calendar'].colorize(:white)}".colorize(:blue)
+#   hora_inicio = evento_a_mostrar["start_date"][11..15]
+#   hora_termino = evento_a_mostrar["end_date"][11..15]
+#   if !hora_termino.nil?
+#     puts "Start_end: #{hora_inicio}-#{hora_termino}".colorize(:blue)
+#   else
+#     print "Start_end: ".colorize(:blue)
+#     puts "Es un evento para todo el dia"
+#   end
+#   puts "Notes: #{evento_a_mostrar['notes']}".colorize(:blue)
+#   cad = evento_a_mostrar["guests"].join(", ")
+#   puts "guests: #{cad}".colorize(:blue)
+#   puts "-" * 78
+#   puts "list | create | show | update | delete | next | prev | exit"
+# end
+
 def show(events)
   print "Event ID: "
   id = gets.chomp.to_i
@@ -114,8 +139,24 @@ def show(events)
   puts "Notes: #{evento_a_mostrar['notes']}"
   cad = evento_a_mostrar["guests"].join(", ")
   puts "guests: #{cad}"
-  puts "-" * 78
-  puts "list | create | show | update | delete | next | prev | exit"
+  puts $menu
+end
+
+
+def nuevo_metodo(tipo_color)
+  action = tipo_color
+  case action
+  when "english"
+    return "magenta".to_sym
+  when "web-dev"
+    return "blue".to_sym
+  when "soft-skills"
+    return "green".to_sym
+  when "default"
+    return "default".to_sym
+  else
+    return "light_black".to_sym
+  end
 end
 
 ## Leer un string como date
@@ -173,7 +214,7 @@ def list(events, date = DateTime.now, msg = "")
   puts ""
   for i in 1..7 do
     print "#{tmp_date.strftime('%a')} #{tmp_date.strftime('%b')} #{tmp_date.strftime('%d')}  " # Calendario
-    tmp_events = events.select { |event| tmp_date.day == Date.parse(event["start_date"]).day } # Almacena en un array los eventos cuyo dia sea igual al que se esta imprimiendo
+    tmp_events = events.select { |event| tmp_date === Date.parse(event["start_date"]) } # Almacena en un array los eventos cuyo dia sea igual al que se esta imprimiendo
     tmp_empty_ends = []
     tmp_full_starts = []
     if tmp_events.length != 0
@@ -226,8 +267,7 @@ def list(events, date = DateTime.now, msg = "")
     tmp_date += 1
     puts ""
   end
-  puts "-" * 78
-  puts "list | create | show | update | delete | next | prev | exit"
+  puts $menu
 end
 
 def create_event(events, id)
@@ -262,6 +302,5 @@ def create_event(events, id)
     "calendar" => calendar
   }
   events.push(new_event)
-  puts "-" * 78
-  puts "list | create | show | update | delete | next | prev | exit"
+  puts $menu
 end
