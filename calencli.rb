@@ -123,18 +123,18 @@ events = [
 
 # Main Progam
 now_date = DateTime.now
-welcome(events, now_date, "Welcome to CalenCLI")
+
+list(events, now_date, "Welcome to CalenCLI")
 
 action = nil
 while action != "exit"
   print "action: "
   action = gets.chomp
-
   case action
   when "list"
-    welcome(events, now_date, "Welcome to CalenCLI")
+    list(events, now_date, "Welcome to CalenCLI")
   when "create"
-    puts "Create"
+    create_event(events, id = id.next)
   when "show"
     show(events)
   when "update"
@@ -144,10 +144,10 @@ while action != "exit"
   when "delete"
     delete_event(events)
   when "next"
-    welcome(events, now_date + 7, "------CalenCLI-----")
+    list(events, now_date + 7, "------CalenCLI-----")
     now_date += 7
   when "prev"
-    welcome(events, now_date - 7, "------CalenCLI-----")
+    list(events, now_date - 7, "------CalenCLI-----")
     now_date -=  7
   when "exit"
     puts "Thanks for using calenCLI"
